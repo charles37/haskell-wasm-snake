@@ -25,16 +25,19 @@
               runtimeInputs = [
                 pkgs.nodejs
                 ghc-wasm-meta.packages.${system}.default
+                pkgs.busybox
               ];
               text = ''
                 npm install
                 npm run build
-                wasm32-wasi-cabal build
+                wasm32-wasi-cabal build -v
                 experiment=$(wasm32-wasi-cabal list-bin exe:experiment)
-                cp "$experiment".wasm dist
+                cp "$experiment" dist
               '';
             };
           };
         }
       );
 }
+
+# --with-gcc ${pkgs.gcc}/bin/gcc

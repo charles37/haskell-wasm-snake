@@ -11,7 +11,7 @@ executable experiment
         OverloadedStrings
     ghc-options:
         -no-hs-main -optl-mexec-model=reactor
-        "-optl-Wl,--export=hs_init,--export=malloc,--export=mallocPtr,--export=free,--export=addExclamationToInput"
+        "-optl-Wl,--export=hs_init,--export=malloc,--export=mallocPtr,--export=free,--export=updateGameState"
         -Weverything
         -Wno-missing-safe-haskell-mode
         -Wno-implicit-prelude
@@ -30,3 +30,5 @@ executable experiment
     build-depends:
         , base
         , bytestring
+        , mersenne-random
+        , utf8-string
