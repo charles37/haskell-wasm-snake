@@ -30,40 +30,40 @@ canvas.height = height * cellSize;
 async function update() {
 
 
-if (!window.direction) {
-    window.direction = 's';
-}
+    if (!window.direction) {
+        window.direction = 's';
+    }
 
 
-const inputLen = Buffer.byteLength(window.direction);
-const inputPtr = exports.malloc(inputLen);
-const inputArr = new Uint8Array(memory.buffer, inputPtr, inputLen);
-encoder.encodeInto(window.direction, inputArr);
-const outputPtrPtr = exports.mallocPtr();
-const outputLen = exports.updateGameState(inputPtr, inputLen, outputPtrPtr);
-const outputPtrArr = new Uint32Array(memory.buffer, outputPtrPtr, 1);
-const outputPtr = outputPtrArr[0];
-const outputArr = new Uint8Array(memory.buffer, outputPtr, outputLen);
-const output = decoder.decode(outputArr);
-
-
-
-exports.freePtr(inputPtr);
-exports.freePtr(outputPtr);
-exports.freePtr(outputPtrPtr);
-
-console.log(exports) 
+    const inputLen = Buffer.byteLength(window.direction);
+    const inputPtr = exports.malloc(inputLen);
+    const inputArr = new Uint8Array(memory.buffer, inputPtr, inputLen);
+    encoder.encodeInto(window.direction, inputArr);
+    const outputPtrPtr = exports.mallocPtr();
+    const outputLen = exports.updateGameState(inputPtr, inputLen, outputPtrPtr);
+    const outputPtrArr = new Uint32Array(memory.buffer, outputPtrPtr, 1);
+    const outputPtr = outputPtrArr[0];
+    const outputArr = new Uint8Array(memory.buffer, outputPtr, outputLen);
+    const output = decoder.decode(outputArr);
 
 
 
-draw(output);
-// delay
-await new Promise(resolve => setTimeout(resolve, 150));
+    exports.freePtr(inputPtr);
+    exports.freePtr(outputPtr);
+    exports.freePtr(outputPtrPtr);
+
+    console.log(exports) 
 
 
-if (window.isRunning) {
-    window.requestAnimationFrame(update);
-}
+
+    draw(output);
+    // delay
+    await new Promise(resolve => setTimeout(resolve, 150));
+
+
+    if (window.isRunning) {
+        window.requestAnimationFrame(update);
+    }
 }
 
 
@@ -91,23 +91,23 @@ for (let y = 0; y < height; y++) {
 }
 
 document.addEventListener("keydown", event => {
-window.direction = event.key;
-console.log(event.key);
+    window.direction = event.key;
+    console.log(event.key);
 });
 
 window.start = () => {
-window.isRunning = true;
-console.log('start');
-console.log(window);
-update();
+    window.isRunning = true;
+    console.log('start');
+    console.log(window);
+    update();
 };
 
 window.stop = () => {
-window.isRunning = false;
+    window.isRunning = false;
 };
 
 function init() {
-window.start();
+    window.start();
 }
 
 init();
